@@ -100,8 +100,8 @@ if [[ "${installVPN,,}" == "y" ]]; then
 	if [[ "${vpnChoice}" == 3 ]]; then
 		sudo apt install -y openvpn dialog python3-pip python3-setuptools
 		sudo pip3 install protonvpn-cli
-		sudo protonvpn init
-		echo "sudo protonvpn c" >> ~/privacy-tools
+		sudo protonvpn-cli init
+		echo "sudo protonvpn-cli c" >> ~/privacy-tools
 	fi
 fi
 
@@ -110,17 +110,3 @@ sudo chmod 777 ~/privacy-tools
 
 echo "You may now run '~/privacy-tools' whenever you need to be anonymous."
 exit 0
-
-		wget -qnc https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb
-		sudo dpkg -i ./nordvpn-release_1.0.0_all.deb
-		sudo apt update
-		sudo apt -y install nordvpn
-		rm nordvpn*.deb
-		nordvpn login
-		echo "nordvpn connect" >> ~/privacy-tools
-	fi
-	
-	if [[ "${vpnChoice}" == 2 ]]; then
-		echo "Installing ExpressVPN..."
-		sudo apt install -y openvpn resolvconf
-		echo "E
