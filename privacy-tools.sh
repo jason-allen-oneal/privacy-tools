@@ -110,3 +110,73 @@ sudo chmod 777 ~/privacy-tools
 
 echo "You may now run '~/privacy-tools' whenever you need to be anonymous."
 exit 0
+#!/bin/bash
+
+# Check if running on Ubuntu or Debian
+if [[ -n "$(command -v apt-get)" ]]; then
+    # Install required packages
+    sudo apt-get update
+    sudo apt-get install i2p tor dnscrypt-proxy nordvpn protonvpn-cli openvpn
+
+# Check if running on Arch Linux
+elif [[ -n "$(command -v pacman)" ]]; then
+    # Install required packages
+    sudo pacman -Syu
+    sudo pacman -S i2p tor dnscrypt-proxy nordvpn protonvpn-cli openvpn
+
+# Check if running on Fedora
+elif [[ -n "$(command -v dnf)" ]]; then
+    # Install required packages
+    sudo dnf update
+    sudo dnf install i2p tor dnscrypt-proxy nordvpn protonvpn-cli openvpn
+
+else
+    # Unsupported operating system
+    echo "Error: Unsupported operating system"
+    exit 1
+fi
+
+# Prompt user for their VPN choice
+echo "Which VPN would you like to install? (nordvpn/protonvpn/surfsharkvpn/expressvpn/other)"
+read vpn_choice
+
+# Install user's VPN choice
+case $vpn_choice in
+    "nordvpn")
+        sudo nordvpn install
+        ;;
+    "protonvpn")
+        sudo protonvpn-cli --install
+        ;;
+    "surfsharkvpn")
+        sudo apt-get install openvpn
+        wget https://o58jpn9mxrs1yibne2xa57ff.s3.amazonaws.com/surfshark-release_1.0.0_amd64.deb
+        sudo dpkg -i surfshark-release_1.0.0_amd64.deb
+        sudo apt-get update
+        sudo apt-get install surfshark-vpn
+        ;;
+    "expressvpn")
+        sudo apt-get update
+        sudo apt-get install curl unzip openvpn
+        curl -L -o expressvpn.deb https://download.expressvpn.xyz/clients/linux/expressvpn_3.9.0.75-1_amd64.deb
+        sudo dpkg -i expressvpn.deb
+        ;;
+    "other")
+        echo "Please enter the name of the VPN package you would like to install:"
+        read vpn_package
+        sudo $PACKAGE_MANAGER install $vpn_package
+        ;;
+    *)
+        echo "Invalid choice. Please select a valid VPN option."
+        ;;
+esac
+
+# Check if VPN installation was successful
+if [ $? -eq 0 ]; then
+    echo "VPN installation successful."
+else
+    echo "Error: VPN installation failed."
+fi
+
+# Done
+echo "Installation complete."
