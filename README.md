@@ -13,7 +13,7 @@ git clone https://github.com/jason-allen-oneal/privacy-tools.git
 ```
 2. Navigate to the directory containing the script:
 ```
-cd project/
+cd privacy-tools/
 ```
 3. Make the script executable:
 ```
